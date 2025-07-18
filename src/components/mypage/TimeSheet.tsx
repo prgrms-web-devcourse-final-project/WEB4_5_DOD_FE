@@ -16,6 +16,7 @@ function TimeSheet({ isOpen, setIsOpen, onSave }: TimeSheetType) {
       setIsOpen={setIsOpen}
       initialSnap={0}
       snapPoints={[0.9]}
+      disableDrag={true}
     >
       {() => (
         <div className="w-full h-[90%] flex flex-col px-5 gap-8 pb-12">

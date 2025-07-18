@@ -1,12 +1,14 @@
 function SearchPlaceList({
   stationName,
   stationAddress,
+  onClick,
 }: {
   stationName: string;
-  stationAddress: string;
+    stationAddress: string;
+    onClick: () => void;
 }) {
   return (
-    <div className="w-full flex flex-col gap-2 rounded-lg bg-[var(--color-white)] hover:bg-[var(--color-muted)] px-2 py-2.5">
+    <div onClick={onClick} className="w-full flex flex-col gap-2 rounded-lg bg-[var(--color-white)] hover:bg-[var(--color-muted)] px-2 py-2.5">
       <div className="text-[var(--color-black)] text-sm font-medium">
         {stationName}
       </div>

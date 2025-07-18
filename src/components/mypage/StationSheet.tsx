@@ -3,70 +3,86 @@ import BottomSheet from "../ui/BottomSheet";
 import Input from "../ui/Input";
 import { Button } from "../ui/Button";
 import SearchPlaceList from "./SearchPlaceList";
-import { ChangeEvent } from "react";
+import React, { useState } from "react";
+import { kakaoSearch } from "@/types/kakaoSearch";
+import { searchSubwayStation } from "@/app/utils/searchSubwayStation";
+
+const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string;
+
 
 type StationSheetType = {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  text: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onSave: () => void;
+  onSave: (station: kakaoSearch) => void;
 };
 
-function StationSheet({
-  isOpen,
-  setIsOpen,
-  text,
-  onChange,
-  onSave,
-}: StationSheetType) {
+const StationSheet = ({isOpen, setIsOpen, onSave}: StationSheetType) => {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<kakaoSearch[]>([]);
+  // const [loading, setLoading] = useState(false);
+  const [selectedStation, setSelectedStation] = useState<kakaoSearch | null>(null);
+
+  const searchHandler = async () => {
+    if (!query.trim()) return;
+    // setLoading(true);
+    try {
+      const data = await searchSubwayStation(query, REST_API_KEY);
+      setResults(data.documents);
+    } catch {
+      console.error("검색 실패");
+    }
+    // setLoading(false);
+  };
+
+  const saveHandler = () => {
+    if (selectedStation) onSave(selectedStation);
+  };
+
   return (
-    <BottomSheet
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-      initialSnap={0}
-      snapPoints={[0.6]}
-    >
+
+    <BottomSheet isOpen={isOpen} setIsOpen={setIsOpen} initialSnap={0} snapPoints={[0.7]}>
       {() => (
-        <div className="w-full h-full flex flex-col px-5 gap-8 pb-12">
-          <div className="flex justify-between items-center px-5">
+        <div className="w-full flex flex-col px-5 gap-8 pb-12">
+          <div className="flex justify-between items-center">
             <X className="invisible" />
-            <span className="text-base font-medium mt-3">역찾기</span>
-            <X
-              size={20}
-              onClick={() => setIsOpen(false)}
-              className="text-[var(--color-black)] cursor-pointer"
-            />
+            <span className="text-base font-medium">역찾기</span>
+            <X size={20} onClick={() => setIsOpen(false)} className="cursor-pointer" />
           </div>
-          <div className="flex flex-col gap-4 w-full max-w-[700px] mx-auto">
+          <div className="w-full flex flex-col flex-1 min-h-0 gap-4 max-w-[700px] mx-auto ">
+            <div className="w-full h-12">
             <Input
-              value={text}
-              icon={<Search className="w-4 h-4" />}
-              onChange={onChange}
+              value={query}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+              onKeyDown={(e:React.KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && searchHandler()}
+              icon={<Search onClick={searchHandler} className="w-4 h-4" />}
               placeholder="가까운 지하철을 검색해주세요."
-            />
-            {/* SearchPlaceList */}
-            <div className="w-full flex flex-1 flex-col gap-2 rounded-lg bg-[var(--color-white)] py-2.5 overflow-y-auto ">
-              <SearchPlaceList
-                stationName="서울역"
-                stationAddress="서울역 중구 퇴게로"
+              fullWidth
+              className="h-full flex items-center px-4"
               />
-              <SearchPlaceList
-                stationName="서울역"
-                stationAddress="서울역 중구 퇴게로"
-              />
-              <SearchPlaceList
-                stationName="서울역"
-                stationAddress="서울역 중구 퇴게로"
-              />
+              </div>
+            <div className="flex flex-col flex-1 min-h-0 overflow-y-auto gap-2 bg-white rounded-lg py-2.5 px-2 w-full">
+              {results.map((station, idx) => (
+                <SearchPlaceList
+                  key={idx}
+                  stationName={station.place_name}
+                  stationAddress={station.road_address_name}
+                  onClick={() => setSelectedStation(station)}
+                />
+              ))}
             </div>
-          </div>
-          <div className="flex justify-center">
-            <Button onClick={onSave}>저장하기</Button>
+              <div className="w-full h-12">
+              <Button
+                state={selectedStation ? "default" : "disabled"}
+                className="h-full flex items-center justify-center"
+                onClick={saveHandler}
+              >저장하기
+              </Button>
+            </div>
           </div>
         </div>
       )}
     </BottomSheet>
   );
 }
+
 export default StationSheet;

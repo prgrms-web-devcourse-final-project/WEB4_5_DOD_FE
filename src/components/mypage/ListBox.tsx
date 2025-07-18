@@ -4,29 +4,26 @@ import Image from "next/image";
 import googleLogo from "@/assets/icon/google_login_icon.svg";
 import { FaToggleOff } from "react-icons/fa6";
 import { FaToggleOn } from "react-icons/fa6";
-import React, { useState } from "react";
+import React from "react";
 
 type ListBoxProps = {
   children: React.ReactNode;
   buttonText?: string;
   station?: string;
-  clickHandler: () => void;
+  isConnected?: boolean;
+  onConnect?: () => void;
+  clickHandler?: () => void;
 };
 
 const ListBox = ({
   children,
   station,
   buttonText = "",
+  isConnected,
+  onConnect,
   clickHandler,
 }: ListBoxProps) => {
-  const [isConnected, setIsConnected] = useState(false);
-
-  const handleToggle = () => {
-    setIsConnected((prev) => !prev);
-  };
-
-  //TODO
-  // 1. 캘린더 연동 토글 (등록 버튼으로만 등록이 가능한지, 연결되어 있지 않은 토글을 눌렀을때도 ?)
+    
 
   return (
     <div className="flex flex-col gap-4">
@@ -62,7 +59,7 @@ const ListBox = ({
               </div>
               <span className="text-xs font-normal">구글 로그인</span>
             </div>
-            <button onClick={handleToggle} className="relative cursor-pointer">
+            <button onClick={onConnect} className="relative cursor-pointer">
               <FaToggleOff
                 size={24}
                 color="var(--color-gray-100)"

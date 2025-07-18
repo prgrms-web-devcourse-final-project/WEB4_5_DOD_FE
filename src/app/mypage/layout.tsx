@@ -1,7 +1,13 @@
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import HeaderTop from "@/components/layout/HeaderTop";
+import { Metadata } from "next";
 import React from "react";
+export const metadata: Metadata = {
+  title: "이때어때 - 마이페이지",
+  description: "이때어때 - 마이페이지",
+};
+
 
 function layout({ children }: { children: React.ReactNode }) {
   return (
