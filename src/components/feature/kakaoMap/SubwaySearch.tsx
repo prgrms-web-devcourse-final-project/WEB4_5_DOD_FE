@@ -9,15 +9,23 @@ import { Button } from "@/components/ui/Button";
 import { X } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCreateDepartLocation } from "@/lib/api/ElectionApi";
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string;
 
 interface SubwaySearchProps {
   onSelectStation: (station: kakaoSearch) => void;
   snapTo?: (i: number) => void;
+  scheduleId: string;
+  userId: string;
 }
 
-const SubwaySearch = ({ onSelectStation, snapTo }: SubwaySearchProps) => {
+const SubwaySearch = ({
+  onSelectStation,
+  snapTo,
+  userId,
+  scheduleId,
+}: SubwaySearchProps) => {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<kakaoSearch[]>([]);
@@ -25,6 +33,7 @@ const SubwaySearch = ({ onSelectStation, snapTo }: SubwaySearchProps) => {
     null
   );
   const route = useRouter();
+  const createDepart = useCreateDepartLocation();
 
   const selectHandler = ({ station }: { station: kakaoSearch }) => {
     setSelectedStation(station);
@@ -104,9 +113,28 @@ const SubwaySearch = ({ onSelectStation, snapTo }: SubwaySearchProps) => {
             state={selectedStation ? "default" : "disabled"}
             className="w-full"
             onClick={() => {
-              if (selectedStation) {
-                route.push("wait");
-              }
+              if (!selectedStation) return;
+              const trimmedPlaceName = selectedStation.place_name.split(" ")[0];
+              const payload = {
+                memberId: userId,
+                departLocationName: trimmedPlaceName,
+                latitude: Number(selectedStation.y),
+                longitude: Number(selectedStation.x),
+              };
+              createDepart.mutate(
+                {
+                  scheduleId,
+                  location: payload,
+                },
+                {
+                  onSuccess: () => {
+                    route.push(`/schdule/${scheduleId}/election/wait`);
+                  },
+                  onError: (err) => {
+                    console.error("출발지 등록 실패", err);
+                  },
+                }
+              );
             }}
           >
             다음

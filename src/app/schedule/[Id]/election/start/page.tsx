@@ -4,21 +4,17 @@ import { Bubble } from "@/components/ui/Bubble";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
 import rabbit from "@/assets/images/rabbit_vote.png";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useSchedule } from "@/lib/api/ElectionApi";
 
-interface Props {
-  scheduleId: string;
-}
-//API 연결 테스트용 ID
-const TEMP_SCHEDULE_ID = "25";
-
-const ElectionStart = ({ scheduleId }: Props) => {
+const ElectionStart = () => {
   const router = useRouter();
-  const { data: schedule, isLoading } = useSchedule(TEMP_SCHEDULE_ID);
+  const params = useParams();
+  const scheduleId = params.Id as string;
+  const { data: schedule, isLoading } = useSchedule(scheduleId);
 
   const clickHandler = () => {
-    router.push(`/schedule/${TEMP_SCHEDULE_ID}/election/start-point`);
+    router.push(`/schedule/${scheduleId}/election/start-point`);
   };
 
   console.log(schedule);

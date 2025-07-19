@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "./axiosInstance";
-import { ScheduleDetailType } from "@/types/schedule";
 
 export interface CreateDepartLocationRequest {
   memberId: string;
@@ -10,7 +9,7 @@ export interface CreateDepartLocationRequest {
 }
 
 /*
- *
+ * 중간 장소 후보 조회
  * @param scheduleId 스케줄 ID, data(유저id, 출발지역 이름, 위도, 경도)
  * @returns
  */
@@ -32,7 +31,12 @@ export const createDepartLocation = async (
 ) => {
   const res = await axiosInstance.post(
     `/schedules/create-depart-location/${scheduleId}`,
-    data
+    data,
+    {
+      params: {
+        scheduleId,
+      },
+    }
   );
   return res.data;
 };
