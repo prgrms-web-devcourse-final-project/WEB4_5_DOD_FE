@@ -3,11 +3,12 @@ import DropdownSmall from "../ui/DropdownSmall";
 import ControlledAlertBox from "../ui/ControlledAlertBox";
 import { useGroupHeaderActions } from "./hooks/useGroupHeaderAction";
 
+type GroupHeaderType = "schedule" | "group";
 interface GroupHeaderTopProps {
   name: string;
   id: string;
   isLeader: boolean;
-  type?: "schedule" | "group";
+  type?: GroupHeaderType;
 }
 
 const GroupHeaderTop = ({ name, id, isLeader, type }: GroupHeaderTopProps) => {
@@ -24,7 +25,7 @@ const GroupHeaderTop = ({ name, id, isLeader, type }: GroupHeaderTopProps) => {
     getDropdownItems,
     getAlertContent,
     shouldShowEllipsis,
-  } = useGroupHeaderActions({ id, isLeader, type });
+  } = useGroupHeaderActions({ id, isLeader, type: type as GroupHeaderType });
 
   return (
     <div className="w-full flex justify-between items-center">

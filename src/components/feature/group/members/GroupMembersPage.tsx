@@ -17,7 +17,7 @@ const GroupMembersPage = () => {
   if (groupLoading) return <GlobalLoading />;
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-[color:var(--color-primary-100)] min-h-screen">
       <div className="hidden sm:block">
         <Header />
       </div>

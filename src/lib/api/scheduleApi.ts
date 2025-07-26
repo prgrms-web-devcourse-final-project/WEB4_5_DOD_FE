@@ -67,10 +67,9 @@ const updateScheduleInfo = async (
   return res.data;
 };
 
-const deleteWorkspace = async (id: string, workspaceId: string) => {
+const deleteWorkspace = async (workspaceId: string) => {
   const res = await axiosInstance.post(
-    `/schedules/delete-workspace/${id}`,
-    workspaceId
+    `/schedules/delete-workspace/${workspaceId}`
   );
   return res.data;
 };
@@ -170,7 +169,7 @@ export const useDeleteWorkspace = ({
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => deleteWorkspace(scheduleId, workspaceId),
+    mutationFn: () => deleteWorkspace(workspaceId),
     onSuccess: () => {
       ToastWell("🗑️", "워크스페이스가 삭제되었습니다.");
       queryClient.invalidateQueries({

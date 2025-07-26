@@ -1,5 +1,9 @@
 "use client";
-import { formatSchedule, toISOStringWithTime } from "@/app/utils/dateFormat";
+import {
+  formatSchedule,
+  isValidTimeRange,
+  toISOStringWithTime,
+} from "@/app/utils/dateFormat";
 import {
   useDeleteSchedule,
   useGroupSchedule,
@@ -10,8 +14,10 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 export const useEditSchedule = (id: string) => {
   const router = useRouter();
-  const { data: scheduleData } = useGroupSchedule(id);
+  const { data: scheduleData, isPending: schedulePending } =
+    useGroupSchedule(id);
   const [scheduleName, setScheduleName] = useState("");
+  const [isError, setIsError] = useState(false);
   const [scheduleDescription, setScheduleDescription] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [startTime, setStartTime] = useState("");
@@ -46,7 +52,13 @@ export const useEditSchedule = (id: string) => {
   };
 
   const handleEditTime = () => {
-    if (selectedDate) {
+    if (selectedDate && startTime && endTime) {
+      const isValid = isValidTimeRange(startTime, endTime);
+      if (!isValid) {
+        setIsError(true);
+        return;
+      }
+
       const startISOTime = toISOStringWithTime(selectedDate, startTime);
       const endISOTime = toISOStringWithTime(selectedDate, endTime);
 
@@ -59,6 +71,7 @@ export const useEditSchedule = (id: string) => {
           endTime: endISOTime!,
         },
       });
+      setIsError(false);
       setIsOpen(false);
     }
   };
@@ -98,5 +111,8 @@ export const useEditSchedule = (id: string) => {
     setStartTime,
     setEndTime,
     handleEditInfo,
+    schedulePending,
+    isError,
+    setIsError,
   };
 };

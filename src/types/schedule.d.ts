@@ -31,6 +31,8 @@ interface ScheduleDetailType {
   workspaces: WorkspaceType[];
 }
 
+type OnlineMeetingPlatformType = "ZOOM" | "GOOGLE_MEET" | "DISCORD" | "ZEP";
+
 type WorkspacePlatformType =
   | "GITHUB"
   | "NOTION"

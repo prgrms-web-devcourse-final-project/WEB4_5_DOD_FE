@@ -7,6 +7,7 @@ import { useWorkspaceForm } from "./hooks/useWorkspaceForm";
 import { workspaceLogos, workspaceTypes } from "./constants/workspace";
 import { ChangeEvent } from "react";
 import { useParams } from "next/navigation";
+import { WORKSPACE_PLATFORM_NAME } from "../../constants/platform";
 
 const WorkspaceBottomSheet = ({
   isOpen,
@@ -27,11 +28,12 @@ const WorkspaceBottomSheet = ({
     setName,
     url,
     setUrl,
-    type,
-    setType,
+    platform,
+    setPlatform,
     handleCreateOrUpdate,
     handleDelete,
     isError,
+    setIsError,
   } = useWorkspaceForm({
     scheduleId,
     workspaceId,
@@ -54,10 +56,13 @@ const WorkspaceBottomSheet = ({
                 {workspaceTypes.map((workspaceType) => (
                   <button
                     key={workspaceType}
-                    onClick={() => setType(workspaceType)}
+                    onClick={() => {
+                      setPlatform(workspaceType);
+                      setIsError(false);
+                    }}
                     className={`w-8 h-8 flex justify-center items-center cursor-pointer rounded-lg transition-all duration-200
                       ${
-                        type === workspaceType
+                        platform === workspaceType
                           ? "bg-[color:var(--color-muted)]"
                           : "hover:bg-[color:var(--color-muted)]"
                       }`}
@@ -92,9 +97,10 @@ const WorkspaceBottomSheet = ({
                 setUrl(e.target.value)
               }
             />
-            {isError && (
-              <p className="text-[color:var(--color-red)] text-xs ml-2">
-                빠진 항목이 있어요! 종류, 이름, URL을 모두 입력해주세요.
+            {isError && platform && (
+              <p className="text-[color:var(--color-red)] text-sm ml-2">
+                유효한 {WORKSPACE_PLATFORM_NAME[platform]} 워크스페이스 링크를
+                입력해주세요.
               </p>
             )}
           </div>
@@ -108,7 +114,12 @@ const WorkspaceBottomSheet = ({
                 삭제하기
               </button>
             )}
-            <Button onClick={handleCreateOrUpdate}>저장하기</Button>
+            <Button
+              onClick={handleCreateOrUpdate}
+              state={!name || !url || !platform ? "disabled" : "default"}
+            >
+              저장하기
+            </Button>
           </div>
         </div>
       )}

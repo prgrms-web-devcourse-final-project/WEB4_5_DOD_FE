@@ -8,14 +8,8 @@ import { motion } from "framer-motion";
 import WorkspaceBottomSheet from "./WorkspaceBottomSheet";
 import { useWorkspaceModal } from "./hooks/useWorkspaceModal";
 import { itemVariants, listVariants } from "../../motion";
-
-type WorkspacePlatformType =
-  | "GITHUB"
-  | "NOTION"
-  | "MIRO"
-  | "FIGMA"
-  | "CANVA"
-  | "GOOGLE_DOCS";
+import Image from "next/image";
+import noWorkspaceImg from "@/assets/images/no_workspace.png";
 
 interface WorkspaceType {
   type: WorkspacePlatformType;
@@ -46,13 +40,23 @@ const EditWorkspace = () => {
             <WorkspaceSkeletonItem key={i} />
           ))}
         {workspaces?.length === 0 && !isPending && (
-          <div>
+          <div className="flex flex-col items-center gap-4 pt-25">
+            <motion.div variants={itemVariants}>
+              <Image
+                src={noWorkspaceImg}
+                alt="워크스페이스가 없어요 이미지"
+                width={100}
+                height={100}
+              />
+            </motion.div>
             <motion.div
               variants={itemVariants}
-              className="w-full flex justify-center items-center text-center text-sm text-[color:var(--color-gray-placeholder)] h-50 leading-6"
+              className="w-full flex justify-center items-end text-center text-sm text-[color:var(--color-gray-placeholder)] leading-6 gap-1"
             >
-              워크스페이스가 없어요 <br />
-              새로운 워크스페이스를 등록해 봐요! 🫡
+              <p>
+                워크스페이스가 없어요 <br />
+                새로운 워크스페이스를 등록해 봐요!{" "}
+              </p>
             </motion.div>
           </div>
         )}

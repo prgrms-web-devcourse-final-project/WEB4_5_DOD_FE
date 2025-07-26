@@ -1,24 +1,12 @@
 import { ChevronRight, Link2, Pen } from "lucide-react";
-import githubIcon from "@/assets/icon/github_icon.svg";
-import notionIcon from "@/assets/icon/notion_icon.svg";
-import figmaIcon from "@/assets/icon/figma_icon.svg";
-import googleDocsIcon from "@/assets/icon/googledocs_icon.svg";
-import miroIcon from "@/assets/icon/miro_icon.svg";
-import canvaIcon from "@/assets/icon/canva_icon.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { WORKSPACE_PLATFORM } from "./schedule/constants/platform";
 
-type Platform =
-  | "GITHUB"
-  | "NOTION"
-  | "FIGMA"
-  | "GOOGLE_DOCS"
-  | "MIRO"
-  | "CANVA";
 interface WorkSpaceProps {
   workspaces:
     | {
-        platform: Platform;
+        platform: WorkspacePlatformType;
         name: string;
       }[]
     | null;
@@ -26,15 +14,6 @@ interface WorkSpaceProps {
 }
 
 const WorkSpace = ({ scheduleId, workspaces }: WorkSpaceProps) => {
-  const PLATFORM = {
-    GITHUB: githubIcon,
-    NOTION: notionIcon,
-    FIGMA: figmaIcon,
-    GOOGLE_DOCS: googleDocsIcon,
-    MIRO: miroIcon,
-    CANVA: canvaIcon,
-  };
-
   return (
     <div className="bg-[color:var(--color-white)] px-5 py-4 gap-4 rounded-lg flex flex-col shadow-[var(--shadow-common)]">
       <div className="flex w-full justify-between items-center">
@@ -65,8 +44,8 @@ const WorkSpace = ({ scheduleId, workspaces }: WorkSpaceProps) => {
               <div className="flex gap-4 items-center">
                 <div>
                   <Image
-                    src={PLATFORM[workspace.platform]}
-                    alt={`${PLATFORM[workspace.platform]} 아이콘`}
+                    src={WORKSPACE_PLATFORM[workspace.platform]}
+                    alt={`${WORKSPACE_PLATFORM[workspace.platform]} 아이콘`}
                     className="w-4 h-4"
                   />
                 </div>

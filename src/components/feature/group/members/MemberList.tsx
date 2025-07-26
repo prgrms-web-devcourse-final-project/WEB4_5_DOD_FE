@@ -22,7 +22,7 @@ const MemberList = ({ members, myId, isLeader, groupId }: MemberListProps) => {
       variants={listVariants}
       initial="hidden"
       animate="visible"
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-4 bg-[color:var(--color-white)] p-5 rounded-lg shadow-[var(--shadow-common)]"
     >
       {members.map((member: MemberDataType, index: number) => (
         <motion.div variants={itemVariants} key={`${member.userId}-${index}`}>

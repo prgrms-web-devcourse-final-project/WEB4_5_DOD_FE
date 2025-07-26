@@ -11,7 +11,6 @@ import { useEffect } from "react";
 const Header = ({ type = "" }: { type?: "" | "blue" }) => {
   const router = useRouter();
   const { data: user, refetch } = useUser();
-  console.log(user);
   useEffect(() => {
     refetch();
   }, [refetch]);
@@ -23,7 +22,8 @@ const Header = ({ type = "" }: { type?: "" | "blue" }) => {
         type === "blue"
           ? "bg-[color:var(--color-primary-400)]"
           : "bg-transparent"
-      }`}>
+      }`}
+    >
       <LogoWebHeader type={type} handleLogoClick={() => router.push("/")} />
       <div className="flex justify-between items-center gap-8">
         {user && (
@@ -55,7 +55,8 @@ const Header = ({ type = "" }: { type?: "" | "blue" }) => {
               type === "blue"
                 ? "border-[color:var(--color-white)] text-[color:var(--color-white)] hover:bg-[color:var(--color-white)] hover:text-[color:var(--color-primary-400)]"
                 : "border-[color:var(--color-primary-400)] text-[color:var(--color-primary-400)] hover:bg-[color:var(--color-primary-400)] hover:text-[color:var(--color-white)]"
-            } text-xs font-medium cursor-pointer `}>
+            } text-xs font-medium cursor-pointer `}
+          >
             로그인
           </button>
         )}

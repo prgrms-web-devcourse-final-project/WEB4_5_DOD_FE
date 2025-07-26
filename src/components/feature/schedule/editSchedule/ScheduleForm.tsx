@@ -43,6 +43,8 @@ const ScheduleForm = ({
         label="온/오프라인"
         value={meetingType === "ONLINE" ? "온라인" : "오프라인"}
         readOnly
+        disabled
+        className="text-[color:var(--color-gray-placeholder)]"
       />
       <Input
         label="모임 시간"
@@ -50,7 +52,7 @@ const ScheduleForm = ({
         onClick={onTimeClick}
         icon={
           <button
-            className="w-7 font-medium text-sm text-[color:var(--color-gray-placeholder)]] hover:text-[color:var(--color-primary-400)]"
+            className="w-7 font-medium text-sm text-[color:var(--color-gray-placeholder)]] hover:text-[color:var(--color-primary-400)] cursor-pointer"
             onClick={onTimeClick}
           >
             수정

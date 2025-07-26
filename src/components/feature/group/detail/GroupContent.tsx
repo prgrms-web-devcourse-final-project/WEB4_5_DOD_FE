@@ -6,6 +6,8 @@ import ScheduleCard from "@/components/ui/ScheduleCard";
 import { formatSchedule, splitByDate } from "@/app/utils/dateFormat";
 import { itemVariants, listVariants } from "../../schedule/motion";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import noScheduleImg from "@/assets/images/no_schedule_calendar.png";
 
 interface Schedule {
   scheduleName: string;
@@ -49,10 +51,16 @@ const GroupContent = ({ groupId, schedules, groupRole }: GroupContentProps) => {
           {hasNoData && (
             <motion.div
               variants={itemVariants}
-              className="w-full flex justify-center items-center text-center text-sm text-[color:var(--color-gray-placeholder)] h-50 leading-6"
+              className="w-full flex justify-center items-end text-center text-sm text-[color:var(--color-gray-placeholder)] h-25 leading-6 gap-1"
             >
               그룹 일정이 없어요 <br />
-              새로운 일정을 만들어 봐요! 🫡
+              새로운 일정을 만들어 봐요!
+              <Image
+                src={noScheduleImg}
+                alt="일정이 없어요 이미지"
+                width={20}
+                height={20}
+              />
             </motion.div>
           )}
           {!hasNoData &&

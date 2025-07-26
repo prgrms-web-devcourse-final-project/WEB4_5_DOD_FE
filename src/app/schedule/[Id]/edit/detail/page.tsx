@@ -1,9 +1,10 @@
 "use client";
 
+import GlobalLoading from "@/app/loading";
 import ActionButtons from "@/components/feature/schedule/editSchedule/ActionButtons";
 import ScheduleForm from "@/components/feature/schedule/editSchedule/ScheduleForm";
 import TimeEditBottomSheet from "@/components/feature/schedule/editSchedule/TimeEditBottomSheet";
-import { useEditSchedule } from "@/components/feature/schedule/hooks/useEditSchedule";
+import { useEditSchedule } from "@/components/feature/schedule/editSchedule/hooks/useEditSchedule";
 import Header from "@/components/layout/Header";
 import HeaderTop from "@/components/layout/HeaderTop";
 import { useParams } from "next/navigation";
@@ -31,7 +32,12 @@ const EditScheduleInfo = () => {
     handleEditInfo,
     startTime,
     endTime,
+    schedulePending,
+    isError,
+    setIsError,
   } = useEditSchedule(id);
+
+  if (schedulePending) return <GlobalLoading />;
 
   return (
     <div className="w-full">
@@ -61,6 +67,8 @@ const EditScheduleInfo = () => {
           setEndTime={setEndTime}
           startTime={startTime}
           endTime={endTime}
+          isError={isError}
+          setIsError={setIsError}
         />
 
         <ActionButtons

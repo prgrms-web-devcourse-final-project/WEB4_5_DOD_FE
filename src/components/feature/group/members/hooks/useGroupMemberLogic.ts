@@ -68,7 +68,6 @@ export const useGroupMemberActions = (groupId: string) => {
   const handleAlertAction = (memberId: string) => {
     switch (alertAction) {
       case "kick":
-        console.log(memberId);
         removeMember.mutate({
           groupId,
           userId: memberId,

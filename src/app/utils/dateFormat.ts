@@ -211,3 +211,16 @@ export const splitByDate = (schedules: Schedule[]) => {
 
   return { past: sortedPast, future: sortedFuture };
 };
+
+export const isValidTimeRange = (
+  startTime: string,
+  endTime: string
+): boolean => {
+  const [startHours, startMinutes] = startTime.split(":").map(Number);
+  const [endHours, endMinutes] = endTime.split(":").map(Number);
+
+  const startTotalMinutes = startHours * 60 + startMinutes;
+  const endTotalMinutes = endHours * 60 + endMinutes;
+
+  return startTotalMinutes < endTotalMinutes;
+};

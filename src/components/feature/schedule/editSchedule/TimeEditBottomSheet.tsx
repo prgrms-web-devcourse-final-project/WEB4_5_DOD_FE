@@ -13,6 +13,8 @@ interface TimeEditBottomSheetProps {
   setEndTime: (str: string) => void;
   startTime: string;
   endTime: string;
+  isError: boolean;
+  setIsError: (bool: boolean) => void;
 }
 
 const TimeEditBottomSheet = ({
@@ -25,6 +27,8 @@ const TimeEditBottomSheet = ({
   setEndTime,
   startTime,
   endTime,
+  isError,
+  setIsError,
 }: TimeEditBottomSheetProps) => {
   return (
     <BottomSheet isOpen={isOpen} setIsOpen={setIsOpen} snapPoints={[0.9]}>
@@ -39,6 +43,8 @@ const TimeEditBottomSheet = ({
             onComplete={onComplete}
             startTime={startTime}
             endTime={endTime}
+            isError={isError}
+            setIsError={setIsError}
           />
         </div>
       )}
