@@ -208,7 +208,8 @@ export const useGroupSchedules = (groupId: string, isMember: boolean) => {
     enabled: !!groupId && isMember,
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   });
 };
 
@@ -219,7 +220,8 @@ export const useGroupStatistics = (groupId: string) => {
     enabled: !!groupId,
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   });
 };
 
@@ -230,7 +232,8 @@ export const useGroupMembers = (groupId: string) => {
     enabled: !!groupId,
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   });
 };
 
