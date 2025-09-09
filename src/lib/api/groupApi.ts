@@ -208,7 +208,7 @@ export const useGroupSchedules = (groupId: string, isMember: boolean) => {
     enabled: !!groupId && isMember,
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 1,
     gcTime: 1000 * 60 * 10,
   });
 };
