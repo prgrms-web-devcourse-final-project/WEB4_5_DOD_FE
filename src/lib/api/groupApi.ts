@@ -221,7 +221,7 @@ export const useGroupStatistics = (groupId: string) => {
     retry: false,
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
-    gcTime: 1000 * 60 * 10,
+    gcTime: 1000 * 60 * 15,
   });
 };
 
@@ -232,7 +232,7 @@ export const useGroupMembers = (groupId: string) => {
     enabled: !!groupId,
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 3,
     gcTime: 1000 * 60 * 10,
   });
 };
